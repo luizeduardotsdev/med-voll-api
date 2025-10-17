@@ -34,3 +34,4 @@ build/
 
 # Ignorar arquivos de ambiente
 /api/.env
+.env
