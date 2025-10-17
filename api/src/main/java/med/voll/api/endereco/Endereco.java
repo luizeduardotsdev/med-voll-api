@@ -1,10 +1,14 @@
 package med.voll.api.endereco;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Endereco {
     private String logradouro;
     private String bairro;
