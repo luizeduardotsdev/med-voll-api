@@ -1,13 +1,17 @@
 package med.voll.api.medico;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import med.voll.api.endereco.Endereco;
 
 @Table(name = "medicos")
 @Entity(name = "Medico")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Medico {
 
