@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import jakarta.validation.Valid;
 import med.voll.api.paciente.DadosCadastroPaciente;
 import med.voll.api.paciente.Paciente;
 import med.voll.api.paciente.PacienteRepository;
@@ -17,7 +18,7 @@ public class PacienteController {
     private PacienteRepository pacienteRepository;
 
     @PostMapping("/cadastrar")
-    public void cadastrar(@RequestBody DadosCadastroPaciente paciente) {
+    public void cadastrar(@RequestBody @Valid DadosCadastroPaciente paciente) {
         pacienteRepository.save(new Paciente(paciente));
     }
 
