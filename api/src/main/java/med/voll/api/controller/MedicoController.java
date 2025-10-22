@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,26 +19,32 @@ public class MedicoController {
 
     @PostMapping("/cadastrar")
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroMedico dados){
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedico dados){
         medicoRepository.save(new Medico(dados));
     }
 
     @GetMapping("/listar")
-    public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){
-        return medicoRepository.findByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+    public ResponseEntity<Page<DadosListagemMedico>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){
+        var page = medicoRepository.findByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+
+        return ResponseEntity.ok(page);
     }
 
     @PutMapping("/atualizar")
     @Transactional
-    public void ataualizar(@RequestBody @Valid DadosAtualizadoMedico dados) {
+    public ResponseEntity ataualizar(@RequestBody @Valid DadosAtualizadoMedico dados) {
         var medico = medicoRepository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
+
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 
     @DeleteMapping("/deletar/{id}")
     @Transactional
-    public void deletar(@RequestParam @PathVariable Long id){
+    public ResponseEntity deletar(@RequestParam @PathVariable Long id){
         var medico = medicoRepository.getReferenceById(id);
         medico.excluir();
+
+        return ResponseEntity.noContent().build();
     }
 }
