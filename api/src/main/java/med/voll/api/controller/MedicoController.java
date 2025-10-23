@@ -34,6 +34,13 @@ public class MedicoController {
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity buscarPorId(@PathVariable Long id){
+        var medicoPorId = medicoRepository.findById(id).map(DadosListagemMedico::new);
+
+        return ResponseEntity.ok(medicoPorId);
+    }
+
     @PutMapping("/atualizar")
     @Transactional
     public ResponseEntity ataualizar(@RequestBody @Valid DadosAtualizadoMedico dados) {
