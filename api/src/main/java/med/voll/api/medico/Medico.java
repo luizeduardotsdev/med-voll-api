@@ -1,13 +1,11 @@
 package med.voll.api.medico;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import med.voll.api.endereco.Endereco;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Table(name = "medicos")
 @Entity(name = "Medico")
