@@ -1,15 +1,17 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.medico.DadosAtualizadoMedico;
 import med.voll.api.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/paciente")
@@ -20,8 +22,11 @@ public class PacienteController {
 
     @PostMapping("/cadastrar")
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPaciente paciente) {
-        pacienteRepository.save(new Paciente(paciente));
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPaciente dados) {
+        var paciente = new Paciente(dados);
+        var pacienteSalvo = pacienteRepository.save(paciente);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteSalvo);
     }
 
     @GetMapping("/listar")
@@ -33,7 +38,7 @@ public class PacienteController {
 
     @PutMapping("/atualizar")
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizadoMedico dados) {
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizadosPaciente dados) {
         var paciente = pacienteRepository.getReferenceById(dados.id());
         paciente.atualuzarInformacoes(dados);
 
